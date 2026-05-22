@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel Cheatsheet — Data Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --tag-bg: #0f2035;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  header {
+    padding: 28px 40px 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .logo-badge {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    font-family: var(--sans);
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+  }
+
+  .subtitle {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-top: 2px;
+  }
+
+  .timer-badge {
+    margin-left: auto;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    padding: 10px 18px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .tab:hover { color: var(--text); }
+
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .tab-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  /* CONTENT */
+  .content {
+    padding: 28px 40px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .pane { display: none; }
+  .pane.active { display: block; }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: span 3; }
+
+  @media (max-width: 780px) {
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .span2, .span3 { grid-column: span 1; }
+    .content { padding: 20px 16px 60px; }
+    header { padding: 18px 16px 0; }
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .card-head {
+    padding: 10px 14px;
+    font-size: 0.68rem;
+    font-family: var(--mono);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* FORMULA TABLE */
+  .formula-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .formula-table tr {
+    border-bottom: 1px solid rgba(30, 58, 95, 0.5);
+  }
+
+  .formula-table tr:last-child { border-bottom: none; }
+
+  .formula-table td {
+    padding: 8px 14px;
+    font-size: 0.75rem;
+    vertical-align: top;
+  }
+
+  .formula-table td:first-child {
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    width: 45%;
+  }
+
+  .formula-table td:last-child {
+    color: #94a3b8;
+  }
+
+  .formula-table tr:hover {
+    background: var(--surface2);
+  }
+
+  /* SYNTAX */
+  .syntax {
+    display: inline-block;
+    background: #0d1b2e;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: #a5f3fc;
+    margin-top: 2px;
+  }
+
+  /* NOTE / TIP */
+  .tip {
+    background: #0f2035;
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    font-size: 0.73rem;
+    color: #7dd3fc;
+    font-family: var(--mono);
+    border-radius: 0 6px 6px 0;
+    margin: 10px 14px;
+  }
+
+  .warn {
+    background: #1c1500;
+    border-left: 3px solid var(--accent4);
+    padding: 8px 12px;
+    font-size: 0.73rem;
+    color: #fcd34d;
+    font-family: var(--mono);
+    border-radius: 0 6px 6px 0;
+    margin: 10px 14px;
+  }
+
+  /* SHORTCUT GRID */
+  .shortcuts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 0;
+  }
+
+  .shortcut-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 14px;
+    border-bottom: 1px solid rgba(30,58,95,0.4);
+    border-right: 1px solid rgba(30,58,95,0.4);
+    font-size: 0.72rem;
+    gap: 8px;
+  }
+
+  .shortcut-item:hover { background: var(--surface2); }
+
+  .shortcut-label { color: #94a3b8; flex: 1; }
+
+  .kbd {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    background: #1a2e4a;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* SECTION TITLE */
+  .section-label {
+    font-size: 0.65rem;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin: 20px 0 10px;
+  }
+
+  /* CONCEPT BLOCK */
+  .concept {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .concept-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .concept p {
+    font-size: 0.73rem;
+    color: #94a3b8;
+    margin-bottom: 6px;
+  }
+
+  .concept .syntax { display: block; margin-top: 6px; }
+
+  /* STEPS */
+  .steps {
+    list-style: none;
+    padding: 10px 14px;
+  }
+
+  .steps li {
+    font-size: 0.73rem;
+    color: #94a3b8;
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+    border-bottom: 1px solid rgba(30,58,95,0.3);
+  }
+
+  .steps li:last-child { border-bottom: none; }
+
+  .steps li::before {
+    content: attr(data-n);
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+
+  /* COLOR ACCENTS per tab */
+  .c-blue { color: #38bdf8; }
+  .c-green { color: #34d399; }
+  .c-purple { color: #a78bfa; }
+  .c-orange { color: #fb923c; }
+  .c-red { color: #f87171; }
+  .c-yellow { color: #fbbf24; }
+  .c-pink { color: #f472b6; }
+
+  .bg-blue { background: #0c2040; }
+  .bg-green { background: #062018; }
+  .bg-purple { background: #150d2a; }
+  .bg-orange { background: #1e1005; }
+
+  /* TAG */
+  .tag {
+    font-size: 0.6rem;
+    font-family: var(--mono);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  /* SUMMARY TABLE */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.72rem;
+  }
+
+  .summary-table th {
+    text-align: left;
+    padding: 8px 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .summary-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(30,58,95,0.4);
+    vertical-align: top;
+  }
+
+  .summary-table tr:hover td { background: var(--surface2); }
+  .summary-table td:first-child { font-family: var(--mono); color: var(--accent); }
+  .summary-table td:last-child { color: #94a3b8; }
+
+  /* BADGE ROW */
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo-badge">X</div>
+    <div>
+      <h1>Excel Cheatsheet</h1>
+      <div class="subtitle">data analytics · interview ready</div>
+    </div>
+    <div class="timer-badge">⏱ ~50 min review</div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('basics')">
+      <span class="tab-dot" style="background:#38bdf8"></span>Basics & Math
+    </button>
+    <button class="tab" onclick="switchTab('aggregation')">
+      <span class="tab-dot" style="background:#34d399"></span>Aggregation
+    </button>
+    <button class="tab" onclick="switchTab('lookup')">
+      <span class="tab-dot" style="background:#a78bfa"></span>Lookup & Ref
+    </button>
+    <button class="tab" onclick="switchTab('text')">
+      <span class="tab-dot" style="background:#fb923c"></span>Text & Cleaning
+    </button>
+    <button class="tab" onclick="switchTab('date')">
+      <span class="tab-dot" style="background:#f472b6"></span>Date & Time
+    </button>
+    <button class="tab" onclick="switchTab('logical')">
+      <span class="tab-dot" style="background:#fbbf24"></span>Logical & IF
+    </button>
+    <button class="tab" onclick="switchTab('advanced')">
+      <span class="tab-dot" style="background:#f87171"></span>Pivot & Charts
+    </button>
+    <button class="tab" onclick="switchTab('shortcuts')">
+      <span class="tab-dot" style="background:#e879f9"></span>Shortcuts
+    </button>
+  </div>
+</header>
+
+<div class="content">
+
+  <!-- ==================== BASICS ==================== -->
+  <div class="pane active" id="pane-basics">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head bg-blue"><span>📐</span> <span class="c-blue">Basic Math Formulas</span></div>
+        <table class="formula-table">
+          <tr><td>=SUM(A1:A10)</td><td>Add all values in range</td></tr>
+          <tr><td>=A1+B1</td><td>Add two cells</td></tr>
+          <tr><td>=A1-B1</td><td>Subtract</td></tr>
+          <tr><td>=A1*B1</td><td>Multiply</td></tr>
+          <tr><td>=A1/B1</td><td>Divide (watch for #DIV/0!)</td></tr>
+          <tr><td>=A1^2</td><td>Power / Exponent</td></tr>
+          <tr><td>=MOD(A1,B1)</td><td>Remainder after division</td></tr>
+          <tr><td>=ABS(A1)</td><td>Absolute value</td></tr>
+          <tr><td>=ROUND(A1,2)</td><td>Round to 2 decimal places</td></tr>
+          <tr><td>=ROUNDUP(A1,0)</td><td>Always round up</td></tr>
+          <tr><td>=ROUNDDOWN(A1,0)</td><td>Always round down</td></tr>
+          <tr><td>=SQRT(A1)</td><td>Square root</td></tr>
+          <tr><td>=INT(A1)</td><td>Remove decimal (truncate down)</td></tr>
+          <tr><td>=TRUNC(A1,2)</td><td>Truncate to 2 decimals</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-blue"><span>🔗</span> <span class="c-blue">Cell References</span></div>
+        <table class="formula-table">
+          <tr><td>=A1</td><td>Relative — shifts when copied</td></tr>
+          <tr><td>=$A$1</td><td>Absolute — locked row & col</td></tr>
+          <tr><td>=$A1</td><td>Lock column only</td></tr>
+          <tr><td>=A$1</td><td>Lock row only</td></tr>
+          <tr><td>=Sheet2!A1</td><td>Reference another sheet</td></tr>
+          <tr><td>=[File.xlsx]Sheet1!A1</td><td>Reference another file</td></tr>
+        </table>
+        <div class="tip">💡 Press F4 to toggle between reference types</div>
+
+        <div class="card-head bg-blue" style="margin-top:4px; border-top:1px solid var(--border)"><span>📊</span> <span class="c-blue">Named Ranges</span></div>
+        <table class="formula-table">
+          <tr><td>Define: Formulas → Name Manager</td><td>Name a range like "Sales"</td></tr>
+          <tr><td>=SUM(Sales)</td><td>Use name instead of range</td></tr>
+          <tr><td>=INDIRECT("A"&B1)</td><td>Dynamic reference via text</td></tr>
+        </table>
+      </div>
+
+      <div class="card span2">
+        <div class="card-head bg-blue"><span>🧮</span> <span class="c-blue">Statistical Basics</span></div>
+        <table class="formula-table">
+          <tr><td>=AVERAGE(A1:A10)</td><td>Mean of range</td></tr>
+          <tr><td>=MEDIAN(A1:A10)</td><td>Middle value</td></tr>
+          <tr><td>=MODE(A1:A10)</td><td>Most frequent value</td></tr>
+          <tr><td>=MAX(A1:A10)</td><td>Largest value</td></tr>
+          <tr><td>=MIN(A1:A10)</td><td>Smallest value</td></tr>
+          <tr><td>=LARGE(A1:A10, 2)</td><td>2nd largest value</td></tr>
+          <tr><td>=SMALL(A1:A10, 3)</td><td>3rd smallest value</td></tr>
+          <tr><td>=STDEV(A1:A10)</td><td>Standard deviation (sample)</td></tr>
+          <tr><td>=VAR(A1:A10)</td><td>Variance (sample)</td></tr>
+          <tr><td>=RANK(A1, A1:A10, 0)</td><td>Rank of value (0=descending)</td></tr>
+          <tr><td>=PERCENTILE(A1:A10, 0.75)</td><td>75th percentile value</td></tr>
+          <tr><td>=PERCENTRANK(A1:A10, 50)</td><td>Percentile rank of 50</td></tr>
+          <tr><td>=CORREL(A1:A10, B1:B10)</td><td>Correlation coefficient (-1 to 1)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== AGGREGATION ==================== -->
+  <div class="pane" id="pane-aggregation">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head bg-green"><span>🔢</span> <span class="c-green">COUNT Functions</span></div>
+        <table class="formula-table">
+          <tr><td>=COUNT(A1:A10)</td><td>Count only numbers</td></tr>
+          <tr><td>=COUNTA(A1:A10)</td><td>Count all non-empty cells</td></tr>
+          <tr><td>=COUNTBLANK(A1:A10)</td><td>Count empty cells</td></tr>
+          <tr><td>=COUNTIF(A1:A10,"Yes")</td><td>Count if equals "Yes"</td></tr>
+          <tr><td>=COUNTIF(A1:A10,">100")</td><td>Count if > 100</td></tr>
+          <tr><td>=COUNTIFS(A:A,"NY",B:B,">50")</td><td>Count with multiple criteria</td></tr>
+        </table>
+        <div class="tip">💡 COUNTIFS = AND logic; use SUMPRODUCT for OR logic</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-green"><span>➕</span> <span class="c-green">SUM / AVERAGE Variants</span></div>
+        <table class="formula-table">
+          <tr><td>=SUMIF(A:A,"NY",B:B)</td><td>Sum col B where col A = "NY"</td></tr>
+          <tr><td>=SUMIFS(B:B,A:A,"NY",C:C,">0")</td><td>Sum with multiple conditions</td></tr>
+          <tr><td>=AVERAGEIF(A:A,"NY",B:B)</td><td>Average where condition met</td></tr>
+          <tr><td>=AVERAGEIFS(B:B,A:A,"NY",C:C,">0")</td><td>Average, multiple conditions</td></tr>
+          <tr><td>=MAXIFS(B:B,A:A,"NY")</td><td>Max where condition met</td></tr>
+          <tr><td>=MINIFS(B:B,A:A,"NY")</td><td>Min where condition met</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-green"><span>💪</span> <span class="c-green">SUMPRODUCT — The Power Formula</span></div>
+        <table class="formula-table">
+          <tr><td>=SUMPRODUCT(A1:A5, B1:B5)</td><td>Multiply arrays → sum result</td></tr>
+          <tr><td>=SUMPRODUCT((A:A="NY")*(B:B))</td><td>Conditional sum (no SUMIF needed)</td></tr>
+          <tr><td>=SUMPRODUCT((A:A="NY")+(A:A="CA"),B:B)/SUMPRODUCT(...))</td><td>OR logic aggregation</td></tr>
+          <tr><td>=SUMPRODUCT(1/COUNTIF(A:A,A:A))</td><td>Count distinct values</td></tr>
+        </table>
+        <div class="tip">💡 SUMPRODUCT works like an array formula without Ctrl+Shift+Enter</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-green"><span>🗄️</span> <span class="c-green">SUBTOTAL & Filtered Data</span></div>
+        <table class="formula-table">
+          <tr><td>=SUBTOTAL(9, A1:A10)</td><td>SUM excluding hidden rows</td></tr>
+          <tr><td>=SUBTOTAL(1, A1:A10)</td><td>AVERAGE excl. hidden rows</td></tr>
+          <tr><td>=SUBTOTAL(2, A1:A10)</td><td>COUNT excl. hidden rows</td></tr>
+          <tr><td>=SUBTOTAL(3, A1:A10)</td><td>COUNTA excl. hidden rows</td></tr>
+          <tr><td>=AGGREGATE(14,6,A:A,1)</td><td>LARGE ignoring errors</td></tr>
+        </table>
+        <div class="warn">⚠ Use SUBTOTAL when filters are applied — SUM counts hidden rows</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LOOKUP ==================== -->
+  <div class="pane" id="pane-lookup">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head bg-purple"><span>🔍</span> <span class="c-purple">VLOOKUP</span></div>
+        <table class="formula-table">
+          <tr><td>=VLOOKUP(lookup_val, table_array, col_index, [range_lookup])</td><td></td></tr>
+        </table>
+        <div class="tip">=VLOOKUP(A2, $D$2:$G$100, 3, 0)</div>
+        <table class="formula-table">
+          <tr><td>range_lookup = 0</td><td>Exact match (use this!)</td></tr>
+          <tr><td>range_lookup = 1 (or omit)</td><td>Approximate match (sorted data)</td></tr>
+          <tr><td>col_index = 3</td><td>Return value from 3rd column of table</td></tr>
+        </table>
+        <div class="warn">⚠ VLOOKUP only looks RIGHT. Lookup column must be leftmost.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-purple"><span>🔍</span> <span class="c-purple">HLOOKUP</span></div>
+        <table class="formula-table">
+          <tr><td>=HLOOKUP(lookup_val, table_array, row_index, [range_lookup])</td><td></td></tr>
+        </table>
+        <div class="tip">=HLOOKUP("Q1", $A$1:$D$5, 3, 0)</div>
+        <table class="formula-table">
+          <tr><td>Like VLOOKUP</td><td>but searches horizontally (row 1)</td></tr>
+          <tr><td>row_index = 3</td><td>Returns value from 3rd row</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-purple"><span>⭐</span> <span class="c-purple">INDEX + MATCH (Preferred)</span></div>
+        <table class="formula-table">
+          <tr><td>=INDEX(return_range, MATCH(lookup_val, lookup_range, 0))</td><td></td></tr>
+        </table>
+        <div class="tip">=INDEX(C:C, MATCH(A2, B:B, 0))</div>
+        <table class="formula-table">
+          <tr><td>INDEX(array, row, [col])</td><td>Return value at position</td></tr>
+          <tr><td>MATCH(val, range, 0)</td><td>Find position of val in range</td></tr>
+          <tr><td>Advantage</td><td>Lookup LEFT, no column counting, faster</td></tr>
+          <tr><td>2-way lookup</td><td>=INDEX(A:Z, MATCH(v1,A:A,0), MATCH(v2,1:1,0))</td></tr>
+        </table>
+        <div class="tip">💡 INDEX+MATCH is more flexible than VLOOKUP. Prefer it.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-purple"><span>✨</span> <span class="c-purple">XLOOKUP (Excel 365)</span></div>
+        <table class="formula-table">
+          <tr><td>=XLOOKUP(lookup_val, lookup_array, return_array, [if_not_found], [match_mode])</td><td></td></tr>
+        </table>
+        <div class="tip">=XLOOKUP(A2, B:B, C:C, "Not found", 0)</div>
+        <table class="formula-table">
+          <tr><td>match_mode = 0</td><td>Exact match</td></tr>
+          <tr><td>match_mode = -1</td><td>Exact or next smaller</td></tr>
+          <tr><td>Can return multiple columns</td><td>Return a range as return_array</td></tr>
+          <tr><td>Replaces</td><td>VLOOKUP + HLOOKUP + INDEX/MATCH</td></tr>
+        </table>
+      </div>
+
+      <div class="card span2">
+        <div class="card-head bg-purple"><span>🗂️</span> <span class="c-purple">Other Reference Functions</span></div>
+        <table class="formula-table">
+          <tr><td>=OFFSET(A1, 2, 3, 1, 1)</td><td>Cell 2 rows down, 3 cols right from A1</td></tr>
+          <tr><td>=CHOOSE(2, "A","B","C")</td><td>Returns "B" (index-based selection)</td></tr>
+          <tr><td>=ROW(A5)</td><td>Returns 5 (row number of A5)</td></tr>
+          <tr><td>=COLUMN(C1)</td><td>Returns 3 (column number)</td></tr>
+          <tr><td>=ROWS(A1:A10)</td><td>Returns 10 (count rows in range)</td></tr>
+          <tr><td>=COLUMNS(A1:D1)</td><td>Returns 4 (count columns in range)</td></tr>
+          <tr><td>=TRANSPOSE(A1:C3)</td><td>Flip rows/cols (array formula)</td></tr>
+          <tr><td>=IFERROR(VLOOKUP(...),"Not found")</td><td>Handle errors gracefully</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TEXT ==================== -->
+  <div class="pane" id="pane-text">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head bg-orange"><span>✂️</span> <span class="c-orange">Extract & Clean Text</span></div>
+        <table class="formula-table">
+          <tr><td>=LEFT(A1, 5)</td><td>First 5 characters</td></tr>
+          <tr><td>=RIGHT(A1, 3)</td><td>Last 3 characters</td></tr>
+          <tr><td>=MID(A1, 3, 4)</td><td>4 chars starting at position 3</td></tr>
+          <tr><td>=LEN(A1)</td><td>Character count</td></tr>
+          <tr><td>=TRIM(A1)</td><td>Remove extra spaces</td></tr>
+          <tr><td>=CLEAN(A1)</td><td>Remove non-printable characters</td></tr>
+          <tr><td>=UPPER(A1)</td><td>ALL CAPS</td></tr>
+          <tr><td>=LOWER(A1)</td><td>all lower</td></tr>
+          <tr><td>=PROPER(A1)</td><td>First Letter Caps</td></tr>
+          <tr><td>=SUBSTITUTE(A1,"old","new")</td><td>Replace all occurrences of text</td></tr>
+          <tr><td>=REPLACE(A1, 3, 2, "XX")</td><td>Replace 2 chars at pos 3 with XX</td></tr>
+          <tr><td>=REPT("*",5)</td><td>Repeat text — *****</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-head bg-orange"><span>🔗</span> <span class="c-orange">Combine & Search Text</span></div>
+        <table class="formula-table">
+          <tr><td>=A1&" "&B1</td><td>Concatenate with & operator</td></tr>
+          <tr><td>=CONCAT(A1, " ", B1)</td><td>Same, function form</td></tr>
+          <tr><td>=TEXTJOIN(", ",TRUE,A1:A5)</td><td>Join with delimiter, skip blanks</td></tr>
+          <tr><td>=FIND("@", A1)</td><td>Position of @ (case-sensitive)</td></tr>
+          <tr><td>=SEARCH("@", A1)</td><td>Position of @ (case-insensitive)</td></tr>
+          <tr><td>=EXACT(A1, B1)</td><td>TRUE if identical (case-sensitive)</td></tr>
+          <tr><td>=TEXT(A1,"0.00%")</td><td>Format number as text "12.34%"</td></tr>
+          <tr><td>=VALUE("123")</td><td>Convert text to number</td></tr>
+          <tr><td>=NUMBERVALUE("1,234.5",".",",")</td><td>Text to number with locale</td></tr>
+        </table>
+        <div class="tip">💡 Extract email domain: =MID(A1,FIND("@",A1)+1,LEN(A1))</div>
+      </div>
+
+      <div class="card span2">
+        <div class="card-head bg-orange"><span>🧹</span> <span class="c-orange">Common Data Cleaning Patterns</span></div>
+        <table class="formula-table">
+          <tr><td>=TRIM(CLEAN(A1))</td><td>Remove spaces + non-printable chars (combo fix)</td></tr>
+          <tr><td>=IFERROR(VALUE(TRIM(A1)),0)</td><td>Clean text → number, replace errors with 0</td></tr>
+          <tr><td>=IF(A1="",B1,A1)</td><td>Fill blank with value from B</td></tr>
+          <tr><td>=IF(ISBLANK(A1),"Missing",A1)</td><td>Flag blanks</td></tr>
+          <tr><td>=COUNTIF(A:A,A1)>1</td><td>TRUE if duplicate value</td></tr>
+          <tr><td>=UNIQUE(A1:A10)</td><td>Return distinct values (365)</td></tr>
+          <tr><td>=FILTER(A1:B10, C1:C10="Yes")</td><td>Filter rows by condition (365)</td></tr>
+          <tr><td>=SORT(A1:A10, 1, -1)</td><td>Sort descending (365)</td></tr>
+          <tr><td>=LEFT(A1,FIND(" ",A1)-1)</td><td>Extract first word (first name)</td></tr>
+          <tr><td>=MID(A1,FIND(" ",A1)+1,LEN(A1))</td><td>Extract everything after first space</td></tr>
+          <tr><td>=SUBSTITUTE(A1," ","_")</td><td>Replace spaces with underscores</td></tr>
+          <tr><td>=ISNUMBER(A1)</td><td>Check if cell is numeric</td></tr>
+          <tr><td>=ISTEXT(A1)</td><td>Check if cell is text</td></tr>
+          <tr><td>=ISERROR(A1)</td><td>TRUE if any error (#N/A, #DIV/0!, etc.)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DATE ==================== -->
+  <div class="pane" id="pane-date">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head" style="background:#1a0a2e"><span>📅</span> <span class="c-pink">Get Date Parts</span></div>
+        <table class="formula-table">
+          <tr><td>=TODAY()</td><td>Current date (dynamic)</td></tr>
+          <tr><td>=NOW()</td><td>Current date + time</td></tr>
+          <tr><td>=YEAR(A1)</td><td>Extract year → 2024</td></tr>
+          <tr><td>=MONTH(A1)</td><td>Extract month → 1-12</td></tr>
+          <tr><td>=DAY(A1)</td><td>Extract day → 1-31</td></tr>
+          <tr><td>=WEEKDAY(A1, 2)</td><td>Day of week (2=Mon=1 … Sun=7)</td></tr>
+          <tr><td>=WEEKNUM(A1)</td><td>Week number of year</td></tr>
+          <tr><td>=HOUR(A1)</td><td>Hour component</td></tr>
+          <tr><td>=MINUTE(A1)</td><td>Minute component</td></tr>
+          <tr><td>=SECOND(A1)</td><td>Second component</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#1a0a2e"><span>🔢</span> <span class="c-pink">Build & Convert Dates</span></div>
+        <table class="formula-table">
+          <tr><td>=DATE(2024, 3, 15)</td><td>Build date from parts</td></tr>
+          <tr><td>=TIME(14, 30, 0)</td><td>Build time 14:30:00</td></tr>
+          <tr><td>=DATEVALUE("15-Mar-2024")</td><td>Text → date serial number</td></tr>
+          <tr><td>=TIMEVALUE("14:30:00")</td><td>Text → time value</td></tr>
+          <tr><td>=TEXT(A1,"DD-MMM-YYYY")</td><td>Date → formatted text</td></tr>
+          <tr><td>=TEXT(A1,"MMMM")</td><td>Date → month name "March"</td></tr>
+          <tr><td>=TEXT(A1,"DDD")</td><td>Abbreviated weekday "Mon"</td></tr>
+          <tr><td>=TEXT(A1,"DDDD")</td><td>Full weekday "Monday"</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#1a0a2e"><span>📏</span> <span class="c-pink">Date Math & Differences</span></div>
+        <table class="formula-table">
+          <tr><td>=B1-A1</td><td>Days between two dates</td></tr>
+          <tr><td>=DATEDIF(A1,B1,"D")</td><td>Days difference (exact)</td></tr>
+          <tr><td>=DATEDIF(A1,B1,"M")</td><td>Complete months between dates</td></tr>
+          <tr><td>=DATEDIF(A1,B1,"Y")</td><td>Complete years (age calculator!)</td></tr>
+          <tr><td>=EDATE(A1, 3)</td><td>Date 3 months from A1</td></tr>
+          <tr><td>=EOMONTH(A1, 0)</td><td>Last day of A1's month</td></tr>
+          <tr><td>=EOMONTH(A1, 1)</td><td>Last day of next month</td></tr>
+          <tr><td>=NETWORKDAYS(A1,B1)</td><td>Workdays between dates (excl. weekends)</td></tr>
+          <tr><td>=NETWORKDAYS.INTL(A1,B1,1)</td><td>Custom weekend definition</td></tr>
+          <tr><td>=WORKDAY(A1, 10)</td><td>Date 10 workdays from A1</td></tr>
+          <tr><td>=A1 + 30</td><td>Add 30 days to date</td></tr>
+        </table>
+        <div class="tip">💡 Age = DATEDIF(DOB, TODAY(), "Y")</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#1a0a2e"><span>🗓️</span> <span class="c-pink">Quarter & Period Logic</span></div>
+        <table class="formula-table">
+          <tr><td>=CHOOSE(MONTH(A1),1,1,1,2,2,2,3,3,3,4,4,4)</td><td>Quarter number from date</td></tr>
+          <tr><td>="Q"&INT((MONTH(A1)-1)/3+1)</td><td>Quarter label "Q1", "Q2"...</td></tr>
+          <tr><td>=YEAR(A1)&"-Q"&INT((MONTH(A1)-1)/3+1)</td><td>"2024-Q1" label</td></tr>
+          <tr><td>=DATE(YEAR(A1),MONTH(A1),1)</td><td>First day of the month</td></tr>
+          <tr><td>=EOMONTH(A1,0)</td><td>Last day of the month</td></tr>
+        </table>
+        <div class="warn">⚠ DATEDIF is undocumented but works. Validate results carefully.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LOGICAL ==================== -->
+  <div class="pane" id="pane-logical">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head" style="background:#1a1400"><span>⚡</span> <span class="c-yellow">IF & Variants</span></div>
+        <table class="formula-table">
+          <tr><td>=IF(A1>100, "High", "Low")</td><td>Basic if-else</td></tr>
+          <tr><td>=IF(A1="","Empty","Has data")</td><td>Check for blanks</td></tr>
+          <tr><td>=IF(A1>90,"A",IF(A1>75,"B",IF(A1>60,"C","F")))</td><td>Nested IF (grade logic)</td></tr>
+          <tr><td>=IFS(A1>90,"A",A1>75,"B",A1>60,"C",TRUE,"F")</td><td>IFS — cleaner alternative</td></tr>
+          <tr><td>=SWITCH(A1,1,"Jan",2,"Feb",3,"Mar","Other")</td><td>Match exact values (like CASE)</td></tr>
+          <tr><td>=IFERROR(formula, "Error!")</td><td>Catch any error</td></tr>
+          <tr><td>=IFNA(VLOOKUP(...),"Not found")</td><td>Catch only #N/A errors</td></tr>
+        </table>
+        <div class="tip">💡 Max 64 nested IFs — use IFS or SWITCH for cleaner logic</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#1a1400"><span>🔗</span> <span class="c-yellow">AND, OR, NOT</span></div>
+        <table class="formula-table">
+          <tr><td>=AND(A1>0, B1>0)</td><td>TRUE only if BOTH true</td></tr>
+          <tr><td>=OR(A1="NY", A1="CA")</td><td>TRUE if EITHER is true</td></tr>
+          <tr><td>=NOT(A1="Inactive")</td><td>Reverse the logic</td></tr>
+          <tr><td>=IF(AND(A1>0,B1>0),"Both +","No")</td><td>AND inside IF</td></tr>
+          <tr><td>=IF(OR(A1="A",A1="B"),"Tier1","Tier2")</td><td>OR inside IF</td></tr>
+          <tr><td>=XOR(A1>0, B1>0)</td><td>TRUE if EXACTLY one is true</td></tr>
+        </table>
+
+        <div class="card-head" style="background:#1a1400; margin-top:4px; border-top:1px solid var(--border)"><span>🔎</span> <span class="c-yellow">IS Functions</span></div>
+        <table class="formula-table">
+          <tr><td>=ISBLANK(A1)</td><td>TRUE if cell is empty</td></tr>
+          <tr><td>=ISNUMBER(A1)</td><td>TRUE if numeric</td></tr>
+          <tr><td>=ISTEXT(A1)</td><td>TRUE if text</td></tr>
+          <tr><td>=ISERROR(A1)</td><td>TRUE if any error</td></tr>
+          <tr><td>=ISNA(A1)</td><td>TRUE if #N/A error only</td></tr>
+          <tr><td>=ISEVEN(A1) / ISODD(A1)</td><td>Even or odd number check</td></tr>
+        </table>
+      </div>
+
+      <div class="card span2">
+        <div class="card-head" style="background:#1a1400"><span>🎯</span> <span class="c-yellow">Conditional Formatting Logic & Error Types</span></div>
+        <div class="grid2" style="padding:14px; gap:14px;">
+          <div>
+            <div class="section-label">Common Errors</div>
+            <table class="formula-table">
+              <tr><td>#N/A</td><td>Value not found (VLOOKUP, MATCH)</td></tr>
+              <tr><td>#DIV/0!</td><td>Division by zero</td></tr>
+              <tr><td>#REF!</td><td>Invalid cell reference (deleted row/col)</td></tr>
+              <tr><td>#VALUE!</td><td>Wrong data type in formula</td></tr>
+              <tr><td>#NAME?</td><td>Formula name misspelled</td></tr>
+              <tr><td>#NUM!</td><td>Invalid numeric value (e.g., SQRT of negative)</td></tr>
+              <tr><td>######</td><td>Column too narrow to show value (not an error)</td></tr>
+            </table>
+          </div>
+          <div>
+            <div class="section-label">Conditional Formatting Rules</div>
+            <table class="formula-table">
+              <tr><td>Highlight cells</td><td>Home → Conditional Formatting → Highlight Cell Rules</td></tr>
+              <tr><td>Top/Bottom N</td><td>Top 10 Items / Bottom 10%</td></tr>
+              <tr><td>Data Bars</td><td>In-cell bar chart</td></tr>
+              <tr><td>Color Scales</td><td>Heat map gradient</td></tr>
+              <tr><td>Icon Sets</td><td>Traffic lights, arrows etc.</td></tr>
+              <tr><td>Custom formula</td><td>=A1>AVERAGE($A$1:$A$100)</td></tr>
+              <tr><td>Duplicate check</td><td>=COUNTIF($A:$A,A1)>1</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ADVANCED ==================== -->
+  <div class="pane" id="pane-advanced">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head" style="background:#1a0505"><span>🔄</span> <span class="c-red">Pivot Tables</span></div>
+        <ol class="steps">
+          <li data-n="1">Select data → Insert → PivotTable → Choose location</li>
+          <li data-n="2">Drag fields: Rows (categories), Columns (cross-tab), Values (numbers), Filters</li>
+          <li data-n="3">Values field: Default is SUM. Right-click → Summarize by: Count, Average, Max, Min</li>
+          <li data-n="4">Right-click → Show Values As: % of Row, % of Column, Running Total, Rank</li>
+          <li data-n="5">Group dates: Right-click a date → Group → by Month, Quarter, Year</li>
+          <li data-n="6">Sort: Click dropdown arrow in pivot → Sort A→Z or by Values</li>
+          <li data-n="7">Add Slicers: PivotTable Analyze → Insert Slicer (visual filter)</li>
+          <li data-n="8">Refresh: Right-click → Refresh (data changes don't auto-update)</li>
+          <li data-n="9">Calculated Field: Analyze → Fields, Items → Calculated Field</li>
+        </ol>
+        <div class="tip">💡 GETPIVOTDATA pulls data from pivot: =GETPIVOTDATA("Sales", $A$3,"Region","North")</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#1a0505"><span>📈</span> <span class="c-red">Charts — Quick Reference</span></div>
+        <table class="formula-table">
+          <tr><td>Bar / Column</td><td>Compare categories</td></tr>
+          <tr><td>Line</td><td>Trends over time</td></tr>
+          <tr><td>Pie / Donut</td><td>Part-to-whole (use sparingly)</td></tr>
+          <tr><td>Scatter</td><td>Correlation between 2 variables</td></tr>
+          <tr><td>Histogram</td><td>Distribution of values</td></tr>
+          <tr><td>Box & Whisker</td><td>Spread + outliers</td></tr>
+          <tr><td>Waterfall</td><td>Running total / contribution</td></tr>
+          <tr><td>Combo</td><td>Dual-axis (bar + line)</td></tr>
+          <tr><td>Sparklines</td><td>Tiny chart inside a cell</td></tr>
+        </table>
+        <div class="warn">⚠ Pie charts with >5 slices are hard to read. Use bar charts instead.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#1a0505"><span>📊</span> <span class="c-red">Data Analysis Tools</span></div>
+        <table class="formula-table">
+          <tr><td>Sort</td><td>Data → Sort → multi-level sorting</td></tr>
+          <tr><td>Filter / AutoFilter</td><td>Data → Filter → dropdown per column</td></tr>
+          <tr><td>Advanced Filter</td><td>Filter with complex criteria to another range</td></tr>
+          <tr><td>Remove Duplicates</td><td>Data → Remove Duplicates → select columns</td></tr>
+          <tr><td>Text to Columns</td><td>Split "First Last" → A, B (delimiter or fixed)</td></tr>
+          <tr><td>Flash Fill</td><td>Ctrl+E — Excel guesses the pattern</td></tr>
+          <tr><td>Data Validation</td><td>Restrict input (dropdown list, number range)</td></tr>
+          <tr><td>What-If Analysis</td><td>Goal Seek, Scenario Manager, Data Table</td></tr>
+          <tr><td>Goal Seek</td><td>Data → What-If → Goal Seek (reverse-solve)</td></tr>
+          <tr><td>Power Query</td><td>Data → Get Data — import, transform, merge data</td></tr>
+          <tr><td>Consolidate</td><td>Data → Consolidate — combine multiple sheets/ranges</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#1a0505"><span>🏆</span> <span class="c-red">Power Features for Analytics</span></div>
+        <table class="formula-table">
+          <tr><td>Power Query (M language)</td><td>ETL: import, clean, transform at scale</td></tr>
+          <tr><td>Power Pivot (DAX)</td><td>Data model, relationships, advanced calcs</td></tr>
+          <tr><td>Named Tables (Ctrl+T)</td><td>Structured refs, auto-expand, easier formulas</td></tr>
+          <tr><td>Freeze Panes</td><td>View → Freeze Panes → headers always visible</td></tr>
+          <tr><td>Structured References</td><td>=Table1[Sales] instead of column letters</td></tr>
+          <tr><td>Array Formulas (Ctrl+Shift+Enter)</td><td>Legacy — returns array of values</td></tr>
+          <tr><td>Dynamic Arrays (365)</td><td>FILTER, SORT, UNIQUE, SEQUENCE, RANDARRAY</td></tr>
+          <tr><td>Spill Range (#)</td><td>Results spill automatically; ref with A1#</td></tr>
+          <tr><td>LET function</td><td>=LET(x,A1*2,y,B1+1,x+y) — define variables</td></tr>
+          <tr><td>LAMBDA function</td><td>Create custom reusable functions</td></tr>
+        </table>
+      </div>
+
+      <div class="card span2">
+        <div class="card-head" style="background:#1a0505"><span>🔑</span> <span class="c-red">Key Analytics Concepts to Know</span></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; padding:14px;">
+          <div class="concept">
+            <div class="concept-title">📌 VLOOKUP vs INDEX/MATCH</div>
+            <p>VLOOKUP is simpler but limited (right-only). INDEX/MATCH is flexible — can look left, two-way lookup, more robust when columns shift.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">📌 Absolute vs Relative Refs</div>
+            <p>Critical when copying formulas. Use $A$1 to lock, A1 to let it shift. F4 cycles through all 4 modes.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">📌 Pivot Table Refreshing</div>
+            <p>Data added to source doesn't auto-refresh. Right-click → Refresh, or change data source if range expanded.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">📌 SUMPRODUCT for OR Logic</div>
+            <p>=SUMPRODUCT((A:A="NY")+(A:A="CA")>0, B:B) — use > 0 to prevent double-counting overlaps.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">📌 Named Tables (Ctrl+T)</div>
+            <p>Convert data to a Table for auto-expand, structured references, easier pivot setup, and Power Query integration.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">📌 Error Handling Pattern</div>
+            <p>=IFERROR(your_formula, "fallback") wraps any formula. For VLOOKUP specifically, =IFNA is more precise.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SHORTCUTS ==================== -->
+  <div class="pane" id="pane-shortcuts">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head" style="background:#190d2e"><span>⌨️</span> <span class="c-purple">Navigation</span></div>
+        <div class="shortcuts">
+          <div class="shortcut-item"><span class="shortcut-label">Last cell in row/col</span><span class="kbd">Ctrl + →/↓</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Go to cell</span><span class="kbd">Ctrl + G</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Name Box / cell addr</span><span class="kbd">F5</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Next sheet</span><span class="kbd">Ctrl + PgDn</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Previous sheet</span><span class="kbd">Ctrl + PgUp</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Select to end</span><span class="kbd">Ctrl + Shift + End</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Select entire row</span><span class="kbd">Shift + Space</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Select entire col</span><span class="kbd">Ctrl + Space</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Select all</span><span class="kbd">Ctrl + A</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Freeze / unfreeze</span><span class="kbd">Alt W F F</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#190d2e"><span>📝</span> <span class="c-purple">Editing</span></div>
+        <div class="shortcuts">
+          <div class="shortcut-item"><span class="shortcut-label">Edit active cell</span><span class="kbd">F2</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Copy</span><span class="kbd">Ctrl + C</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Paste special</span><span class="kbd">Ctrl + Alt + V</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Paste values only</span><span class="kbd">Ctrl+Shift+V → V</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Undo</span><span class="kbd">Ctrl + Z</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Redo</span><span class="kbd">Ctrl + Y</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Fill down</span><span class="kbd">Ctrl + D</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Fill right</span><span class="kbd">Ctrl + R</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Find & Replace</span><span class="kbd">Ctrl + H</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Flash Fill</span><span class="kbd">Ctrl + E</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#190d2e"><span>📊</span> <span class="c-purple">Formatting</span></div>
+        <div class="shortcuts">
+          <div class="shortcut-item"><span class="shortcut-label">Format cells dialog</span><span class="kbd">Ctrl + 1</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Bold</span><span class="kbd">Ctrl + B</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Italic</span><span class="kbd">Ctrl + I</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Currency format</span><span class="kbd">Ctrl + Shift + $</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Percentage format</span><span class="kbd">Ctrl + Shift + %</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Date format</span><span class="kbd">Ctrl + Shift + #</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Insert today's date</span><span class="kbd">Ctrl + ;</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Insert current time</span><span class="kbd">Ctrl + Shift + ;</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">AutoFit column width</span><span class="kbd">Alt H O I</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Hide row</span><span class="kbd">Ctrl + 9</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head" style="background:#190d2e"><span>⚡</span> <span class="c-purple">Formulas & Data</span></div>
+        <div class="shortcuts">
+          <div class="shortcut-item"><span class="shortcut-label">Toggle $ reference</span><span class="kbd">F4</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Recalculate</span><span class="kbd">F9</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Array formula</span><span class="kbd">Ctrl+Shift+Enter</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Show all formulas</span><span class="kbd">Ctrl + `</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">AutoSum</span><span class="kbd">Alt + =</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Insert table (Ctrl+T)</span><span class="kbd">Ctrl + T</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Filter toggle</span><span class="kbd">Ctrl + Shift + L</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Insert row/col</span><span class="kbd">Ctrl + Shift + +</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Delete row/col</span><span class="kbd">Ctrl + -</span></div>
+          <div class="shortcut-item"><span class="shortcut-label">Name a range</span><span class="kbd">Ctrl + F3</span></div>
+        </div>
+      </div>
+
+      <div class="card span2">
+        <div class="card-head" style="background:#190d2e"><span>🧠</span> <span class="c-purple">Must-Know Tips for Interview</span></div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px;">
+          <div class="concept">
+            <div class="concept-title">🔑 Paste Special: Values</div>
+            <p>Ctrl+C → Ctrl+Alt+V → V → Enter. Paste calculated values without formulas. Essential for removing formula dependencies.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">🔑 Text to Columns</div>
+            <p>Data → Text to Columns → Delimited. Split comma/space-separated data into columns. Also fixes dates stored as text.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">🔑 AutoFill Patterns</div>
+            <p>Type Mon, Tue → drag handle → Excel continues. Works for dates, months, quarters, custom lists. Double-click fill handle to fill to last row.</p>
+          </div>
+          <div class="concept">
+            <div class="concept-title">🔑 Named Tables vs Ranges</div>
+            <p>Ctrl+T creates a Table. Formulas use =Table1[ColumnName]. Auto-expands when new rows added. Works beautifully with XLOOKUP and pivots.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    const tabs = document.querySelectorAll('.tab');
+    const order = ['basics','aggregation','lookup','text','date','logical','advanced','shortcuts'];
+    tabs[order.indexOf(id)].classList.add('active');
+    document.getElementById('pane-' + id).classList.add('active');
+  }
+</script>
+</body>
+</html>
