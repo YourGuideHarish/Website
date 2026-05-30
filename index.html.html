@@ -782,7 +782,9 @@ const CONFIG = {
     div.querySelector('.res-unlock').addEventListener('click', () => {
       if (typeof gtag !== 'undefined') {
           gtag('event', 'resource_click', {
-            resource_name: res.name
+            resource_name: res.name,
+            resource_type: res.type,
+            page_location: window.location.href
           });
         }
 
